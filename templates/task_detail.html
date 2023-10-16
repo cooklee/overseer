@@ -6,6 +6,15 @@
     <h2>
     {{ task.description }}
     </h2>
+     <form method="post">
+        {% csrf_token %}
+        <p><input type="text" name="name" placeholder="Nazwa"> </p>
+        <p><textarea name="description" placeholder="Opis"></textarea></p>
+        <p>
+            <input type="submit">
+        </p>
+
+    </form>
     <ul>
         {% for child in  task.children.all  %}
             <li><a href="{% url 'task_detail' child.id %}">{{ child.name }}</a></li>

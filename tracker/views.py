@@ -41,3 +41,10 @@ class ShowTaskDetailView(View):
     def get(self, request, id):
         task = Task.objects.get(id=id)
         return render(request, 'task_detail.html', {'task': task})
+
+    def post(self, request, id):
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        parent = Task.objects.get(id=id)
+        Task.objects.create(name=name, description=description, parent=parent)
+        return redirect('task_detail', id)
