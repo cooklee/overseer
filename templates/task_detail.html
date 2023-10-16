@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>
+        {{ task.name }}
+    </h1>
+    <h2>
+    {{ task.description }}
+    </h2>
+    <ul>
+        {% for child in  task.children.all  %}
+            <li><a href="{% url 'task_detail' child.id %}">{{ child.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

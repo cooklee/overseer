@@ -15,7 +15,7 @@ class AddTaskView(View):
 
     def get(self, request):
         tasks = Task.objects.all()
-        return render(request, 'form.html', {'tasks':tasks})
+        return render(request, 'form.html', {'tasks': tasks})
 
     def post(self, request):
         name = request.POST.get('name')
@@ -27,3 +27,17 @@ class AddTaskView(View):
             parent = Task.objects.get(id=parent_id)
         Task.objects.create(name=name, description=description, parent=parent)
         return redirect('add_task')
+
+
+class ShowProjectsView(View):
+
+    def get(self, request):
+        projects = Task.objects.filter(parent__isnull=True)
+        return render(request, 'projects.html', {'projects': projects})
+
+
+class ShowTaskDetailView(View):
+
+    def get(self, request, id):
+        task = Task.objects.get(id=id)
+        return render(request, 'task_detail.html', {'task': task})
