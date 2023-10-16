@@ -22,4 +22,5 @@ from tracker import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view(), name='index'),
+    path('add_task/', views.AddTaskView.as_view(), name='add_task')
 ]
