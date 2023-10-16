@@ -4,14 +4,15 @@
         {% csrf_token %}
         <p><input type="text" name="name" placeholder="Nazwa"> </p>
         <p><textarea name="description" placeholder="Opis"></textarea></p>
-        <p>
-            <select name="parent">
-                {% for task in tasks %}
-                    <option value="{{ task.id }}">{{ task.name }}</option>
-                {% endfor %}
-            </select>
-
-        </p>
+{#        <p>#}
+{#            <select name="parent">#}
+{#                <option value="">-------------</option>#}
+{#                {% for task in tasks %}#}
+{#                    <option value="{{ task.id }}">{{ task.name }}</option>#}
+{#                {% endfor %}#}
+{#            </select>#}
+{##}
+{#        </p>#}
         <p>
             <input type="submit">
         </p>

@@ -5,7 +5,7 @@ from django.db import models
 class Task(models.Model):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=512)
-    parent = models.ForeignKey('Task', null=True, on_delete=models.CASCADE)
+    parent = models.ForeignKey('Task', null=True, on_delete=models.CASCADE) # jeśli parent == None to ten task jest traktowany jak projekt
 
 class TimeSpent(models.Model):
     amount = models.IntegerField()
