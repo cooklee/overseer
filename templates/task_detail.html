@@ -8,8 +8,8 @@
     </h2>
      <form method="post">
         {% csrf_token %}
-        <p><input type="text" name="name" placeholder="Nazwa"> </p>
-        <p><textarea name="description" placeholder="Opis"></textarea></p>
+        <p><input  class="form-control"  type="text" name="name" placeholder="Nazwa"> </p>
+        <p><textarea class="form-control" name="description" placeholder="Opis" rows="4"></textarea></p>
         <p>
             <input type="submit">
         </p>

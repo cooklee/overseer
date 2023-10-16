@@ -8,6 +8,9 @@ class Task(models.Model):
     parent = models.ForeignKey('Task', null=True, on_delete=models.CASCADE,
                                related_name='children') # jeśli parent == None to ten task jest traktowany jak projekt
 
+    def __str__(self):
+        return self.name
+
 class TimeSpent(models.Model):
     amount = models.IntegerField()
     task = models.ForeignKey(Task, on_delete=models.CASCADE)

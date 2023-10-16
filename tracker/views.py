@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-from tracker.models import Task
+from tracker.forms import AddTimeSpentToTaskForm
+from tracker.models import Task, TimeSpent
 
 
 # Create your views here.
@@ -48,3 +49,21 @@ class ShowTaskDetailView(View):
         parent = Task.objects.get(id=id)
         Task.objects.create(name=name, description=description, parent=parent)
         return redirect('task_detail', id)
+
+class AddTimeSpendToTaskView(View):
+    def get(self, request):
+        form = AddTimeSpentToTaskForm()
+        return render(request, 'form_new.html', {'form':form})
+
+
+    def post(self, request):
+        form = AddTimeSpentToTaskForm(request.POST)
+        if form.is_valid():
+            amount = form.cleaned_data['amount'] # to juz bedzie int
+            task = form.cleaned_data['task']
+            date = form.cleaned_data['date']
+            description = form.cleaned_data['description']
+            TimeSpent.objects.create(amount=amount, task=task, date=date, description=description)
+            return redirect('add_timespent')
+        else:
+            return render(request, 'form_new.html', {'form':form})
