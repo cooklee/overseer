@@ -6,7 +6,7 @@
     <h2>
     {{ task.description }}
     </h2>
-     <form method="post">
+     <form method="post" >
         {% csrf_token %}
         <p><input  class="form-control"  type="text" name="name" placeholder="Nazwa"> </p>
         <p><textarea class="form-control" name="description" placeholder="Opis" rows="4"></textarea></p>
@@ -14,6 +14,11 @@
             <input type="submit">
         </p>
 
+    </form>
+    <form method="post" action="{% url 'add_cost_to_task' task.id %}">
+        {% csrf_token  %}
+        {{ form.as_p }}
+        <input type="submit">
     </form>
     <ul>
         {% for child in  task.children.all  %}

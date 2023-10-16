@@ -7,6 +7,7 @@ class Task(models.Model):
     description = models.CharField(max_length=512)
     parent = models.ForeignKey('Task', null=True, on_delete=models.CASCADE,
                                related_name='children') # jeśli parent == None to ten task jest traktowany jak projekt
+    done = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -16,6 +17,12 @@ class TimeSpent(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     date = models.DateField()
     description = models.CharField(max_length=512)
+
+class Cost(models.Model):
+    description = models.TextField()
+    amount = models.FloatField()
+    task = models.ForeignKey(Task,on_delete=models.CASCADE)
+    date = models.DateField()
 
 
 
