@@ -1,4 +1,4 @@
-
+from datetime import datetime
 
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
@@ -13,14 +13,14 @@ from tracker.models import Task, TimeSpent, Resource
 class IndexView(View):
 
     def get(self, request):
-        return render(request, 'base.html')
+        return render(request, 'base.html', {'date':'dupa na kiju'} )
 
 
 class AddTaskView(View):
 
     def get(self, request):
         tasks = Task.objects.all()
-        return render(request, 'form.html', {'tasks': tasks})
+        return render(request, 'form.html', {'tasks': tasks,})
 
     def post(self, request):
         name = request.POST.get('name')
@@ -119,6 +119,8 @@ class UpdateResourceView(UpdateView):
     fields = '__all__'
     template_name = 'form_generic.html'
     success_url = reverse_lazy('list_resource')
+
+
 
 
 class ListResourceView(ListView):
