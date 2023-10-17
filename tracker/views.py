@@ -1,8 +1,12 @@
+
+
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
 from django.views import View
+from django.views.generic import CreateView, DetailView, DeleteView, UpdateView, ListView
 
 from tracker.forms import AddTimeSpentToTaskForm, AddCostToTaskForm
-from tracker.models import Task, TimeSpent
+from tracker.models import Task, TimeSpent, Resource
 
 
 # Create your views here.
@@ -78,3 +82,46 @@ class AddTimeSpendToTaskView(View):
             return redirect('add_timespent')
         else:
             return render(request, 'form_new.html', {'form':form})
+
+
+class AddResourceView(CreateView):
+    model = Resource
+    fields = '__all__'
+    template_name = 'form_generic.html'
+
+    # success_url = reverse_lazy('add_resource')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['resources'] = Resource.objects.all()
+        return context
+
+    # def form_valid(self, form):
+    #     super(AddResourceView, self).form_valid()
+    #
+    # def form_invalid(self, form):
+    #     pass
+    def get_success_url(self):
+        return reverse('detail_resource', args=(self.object.pk,))
+
+class DetailResourceView(DetailView):
+    model = Resource
+    template_name = 'detail_resource.html'
+
+
+class DeleteResourceView(DeleteView):
+    model = Resource
+    template_name = 'delete_form.html'
+    success_url = reverse_lazy('list_resource')
+
+
+class UpdateResourceView(UpdateView):
+    model = Resource
+    fields = '__all__'
+    template_name = 'form_generic.html'
+    success_url = reverse_lazy('list_resource')
+
+
+class ListResourceView(ListView):
+    model = Resource
+    template_name = 'list_view.html'
+

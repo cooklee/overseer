@@ -26,5 +26,10 @@ urlpatterns = [
     path('projects/', views.ShowProjectsView.as_view(), name='projects'),
     path('task/<int:id>/', views.ShowTaskDetailView.as_view(), name='task_detail'),
     path('add_timespent/', views.AddTimeSpendToTaskView.as_view(), name='add_timespent'),
-    path('add_cost_to_task/<int:task_id>/', views.AddCostToTimeSpentView.as_view(), name='add_cost_to_task')
+    path('add_cost_to_task/<int:task_id>/', views.AddCostToTimeSpentView.as_view(), name='add_cost_to_task'),
+    path('add_resource/', views.AddResourceView.as_view(), name='add_resource'),
+    path('resource/<int:pk>/', views.DetailResourceView.as_view(), name='detail_resource'),
+    path('delete_resource/<int:pk>/', views.DeleteResourceView.as_view(), name='delete_resource'),
+    path('update_resource/<int:pk>/', views.UpdateResourceView.as_view(), name='update_resource'),
+    path('list_resource/', views.ListResourceView.as_view(), name='list_resource')
 ]

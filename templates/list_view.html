@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <ul class="list-group">
+        {% for item in object_list %}
+            <li class="list-group-item"> {{ item.name }}  <a href="{% url 'delete_resource' item.id%} ">
+                <img src="{%  static 'DMP63.jpg'%}" width="20">
+
+
+            </a>
+            <a href="{% url 'update_resource' item.id%} ">U</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

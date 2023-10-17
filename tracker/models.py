@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 # Create your models here.
@@ -22,7 +23,16 @@ class Cost(models.Model):
     description = models.TextField()
     amount = models.FloatField()
     task = models.ForeignKey(Task,on_delete=models.CASCADE)
-    date = models.DateField()
+
+
+def check_length_of_str(value):
+    if len(value) < 4:
+        raise ValidationError('za krótki')
+
+class Resource(models.Model):
+    name = models.CharField(max_length=128, validators=[check_length_of_str])
+    description = models.TextField()
+    price = models.FloatField()
 
 
 
