@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+from django.contrib.auth.models import Group
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
@@ -39,12 +40,18 @@ class AddTaskView(LoginRequiredMixin, View):
 
 class ShowProjectsView(LoginRequiredMixin, View):
 
+    # def test_func(self):
+    #     g = Group.objects.get(name='szef')
+    #     return g in self.request.user.groups.all()
+
     def get(self, request):
         projects = Task.objects.filter(parent__isnull=True, owner=request.user)
         return render(request, 'projects.html', {'projects': projects})
 
 
-class ShowTaskDetailView(View):
+class ShowTaskDetailView(PermissionRequiredMixin, View):
+
+    permission_required = ['tracker.view_task']
 
     def get(self, request, id):
         task = Task.objects.get(id=id)
