@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -16,9 +18,10 @@ class IndexView(View):
         return render(request, 'base.html', {'date':'dupa na kiju'} )
 
 
-class AddTaskView(View):
+class AddTaskView(LoginRequiredMixin, View):
 
     def get(self, request):
+
         tasks = Task.objects.all()
         return render(request, 'form.html', {'tasks': tasks,})
 
@@ -30,14 +33,14 @@ class AddTaskView(View):
             parent = None
         else:
             parent = Task.objects.get(id=parent_id)
-        Task.objects.create(name=name, description=description, parent=parent)
+        Task.objects.create(name=name, description=description, parent=parent, owner=request.user)
         return redirect('add_task')
 
 
-class ShowProjectsView(View):
+class ShowProjectsView(LoginRequiredMixin, View):
 
     def get(self, request):
-        projects = Task.objects.filter(parent__isnull=True)
+        projects = Task.objects.filter(parent__isnull=True, owner=request.user)
         return render(request, 'projects.html', {'projects': projects})
 
 

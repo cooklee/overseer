@@ -23,7 +23,8 @@ class LoginView(View):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('index')
+                next_url = request.GET.get('next', 'index')
+                return redirect(next_url)
             form = LoginForm()
         return render(request, 'form_generic.html', {'form': form})
 

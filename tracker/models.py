@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -9,6 +10,7 @@ class Task(models.Model):
     parent = models.ForeignKey('Task', null=True, on_delete=models.CASCADE,
                                related_name='children') # jeśli parent == None to ten task jest traktowany jak projekt
     done = models.BooleanField(default=False)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
