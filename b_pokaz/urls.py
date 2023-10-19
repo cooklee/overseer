@@ -16,14 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 
 from tracker import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.IndexView.as_view(), name='index'),
-    path('tracker/', include('tracker.urls')),
-    path('pokaz/',include('b_pokaz.urls')),
-    path('accounts/', include('accounts.urls')),
+    path('', TemplateView.as_view(template_name='b_pokaz/index.html')),
+    path('base/', TemplateView.as_view(template_name='b_pokaz/base.html'), name='base'),
+    path('a/', TemplateView.as_view(template_name='b_pokaz/a.html'), name='a'),
+    path('b/', TemplateView.as_view(template_name='b_pokaz/b.html'), name='b'),
 
 ]

@@ -38,5 +38,11 @@ class AddCostToTaskForm(forms.ModelForm):
         # fields = ['description', 'amount']
         exclude = ['task']
         #fields = '__all__'
+        widgets = {
+            'description': forms.TextInput(attrs={
+                'class':'dupa'
+            })
+        }
+
 
 

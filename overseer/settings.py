@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tracker',
     'accounts',
+    'b_pokaz'
 ]
 
 MIDDLEWARE = [
