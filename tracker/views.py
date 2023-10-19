@@ -16,7 +16,7 @@ from tracker.models import Task, TimeSpent, Resource
 class IndexView(View):
 
     def get(self, request):
-        return render(request, 'base.html', {'date':'dupa na kiju'} )
+        return render(request, 'base.html', {'date': 'dupa na kiju'})
 
 
 class AddTaskView(LoginRequiredMixin, View):
@@ -24,7 +24,7 @@ class AddTaskView(LoginRequiredMixin, View):
     def get(self, request):
 
         tasks = Task.objects.all()
-        return render(request, 'form.html', {'tasks': tasks,})
+        return render(request, 'form.html', {'tasks': tasks, })
 
     def post(self, request):
         name = request.POST.get('name')
@@ -50,20 +50,21 @@ class ShowProjectsView(LoginRequiredMixin, View):
 
 
 class ShowTaskDetailView(PermissionRequiredMixin, View):
-
     permission_required = ['tracker.view_task']
 
     def get(self, request, id):
         task = Task.objects.get(id=id)
         form = AddCostToTaskForm()
-        return render(request, 'task_detail.html', {'task': task, 'form':form})
+        return render(request, 'task_detail.html', {'task': task, 'form': form})
 
     def post(self, request, id):
         name = request.POST.get('name')
         description = request.POST.get('description')
         parent = Task.objects.get(id=id)
-        Task.objects.create(name=name, description=description, parent=parent)
+        Task.objects.create(name=name, description=description,
+                            parent=parent, owner=request.user)
         return redirect('task_detail', id)
+
 
 class AddCostToTimeSpentView(View):
 
@@ -72,26 +73,27 @@ class AddCostToTimeSpentView(View):
         form = AddCostToTaskForm(request.POST)
         if form.is_valid():
             cost = form.save(commit=False)
-            cost.task=task
+            cost.task = task
             cost.save()
             return redirect('task_detail', task.id)
+
+
 class AddTimeSpendToTaskView(View):
     def get(self, request):
         form = AddTimeSpentToTaskForm()
-        return render(request, 'form_new.html', {'form':form})
-
+        return render(request, 'form_new.html', {'form': form})
 
     def post(self, request):
         form = AddTimeSpentToTaskForm(request.POST)
         if form.is_valid():
-            amount = form.cleaned_data['amount'] # to juz bedzie int
+            amount = form.cleaned_data['amount']  # to juz bedzie int
             task = form.cleaned_data['task']
             date = form.cleaned_data['date']
             description = form.cleaned_data['description']
             TimeSpent.objects.create(amount=amount, task=task, date=date, description=description)
             return redirect('add_timespent')
         else:
-            return render(request, 'form_new.html', {'form':form})
+            return render(request, 'form_new.html', {'form': form})
 
 
 class AddResourceView(CreateView):
@@ -113,6 +115,7 @@ class AddResourceView(CreateView):
     def get_success_url(self):
         return reverse('detail_resource', args=(self.object.pk,))
 
+
 class DetailResourceView(DetailView):
     model = Resource
     template_name = 'detail_resource.html'
@@ -131,9 +134,6 @@ class UpdateResourceView(UpdateView):
     success_url = reverse_lazy('list_resource')
 
 
-
-
 class ListResourceView(ListView):
     model = Resource
     template_name = 'list_view.html'
-
